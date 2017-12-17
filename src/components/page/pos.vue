@@ -170,23 +170,25 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import store from '../vuex/store'
+import {mapState} from 'vuex'
 
 export default {
     name: "pos",
+    store,
     data() {
-    return {
-        activeName: "first",
-        activeName_right: 'first',
-        tableData: [],
-        oftenGoods: [],
-        type0Goods0:[],
-        type0Goods1:[],
-        type0Goods2:[],
-        type0Goods3:[],
-        total_price: 0,
-        total_count: 0
-    };
+        return {
+            activeName: "first",
+            activeName_right: 'first',
+            tableData: [],
+            type0Goods0:[],
+            type0Goods1:[],
+            type0Goods2:[],
+            type0Goods3:[],
+            total_price: 0,
+            total_count: 0
+        };
     },
     methods: {
         handleClick(tab, event) {
@@ -256,20 +258,14 @@ export default {
         }
     }
     ,
+    computed: {
+        ...mapState(['oftenGoods', 'typeGoods'])
+    },
     created(){
-        axios.get('http://jspang.com/DemoApi/oftenGoods.php')
-        .then(response=>{
-            this.oftenGoods = response.data
-        })
-        .catch(erro => console.log(erro))
-        axios.get('http://jspang.com/DemoApi/typeGoods.php')
-        .then(response=>{
-            this.type0Goods0 = response.data[0]
-            this.type0Goods1 = response.data[1]
-            this.type0Goods2 = response.data[2]
-            this.type0Goods3 = response.data[3]
-        })
-        .catch(erro => console.log(erro))
+        this.type0Goods0 = this.typeGoods[0]
+        this.type0Goods1 = this.typeGoods[1]
+        this.type0Goods2 = this.typeGoods[2]
+        this.type0Goods3 = this.typeGoods[3]
     }
 };
 </script>
